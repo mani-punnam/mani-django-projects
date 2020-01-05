@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+  </head>
+  <body>
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <div class="navbar-header">
+        </div>
+        <ul class="nav navbar-nav">
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a class="btn btn-primary btn-lg" href="/logout" style="color:white;">Logout</a></li>
+        </ul>
+      </div>
+    </nav><br>
+    <table border="2">
+      <thead>
+        <th>Student Registration Number</th>
+        <th>Student Name</th>
+        <th>Gender</th>
+        <th>Email</th>
+        <th>Percentage</th>
+      </thead>
+      {%for std in student%}
+      <tr>
+        <td>{{std.sregno}}</td>
+        <td>{{std.sname}}</td>
+        <td>{{std.gender}}</td>
+        <td>{{std.email}}</td>
+        <td>{{std.sper}}</td>
+      </tr>
+      {%endfor%}
+    </table>
+  </body>
+</html>
