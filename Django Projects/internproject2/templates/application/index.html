@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+{%load static%}
+<html lang="en">
+<head>
+  <!-- Theme Made By www.w3schools.com - No Copyright -->
+  <title>Bootstrap Theme The Band</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <style>
+  body {
+    font: 400 15px/1.8 Lato, sans-serif;
+    color: #777;
+  }
+  h3, h4 {
+    margin: 10px 0 30px 0;
+    letter-spacing: 10px;
+    font-size: 20px;
+    color: #111;
+  }
+  .container {
+    padding: 80px 120px;
+  }
+  .carousel-inner img {
+    -webkit-filter: grayscale(90%);
+    filter: grayscale(90%); /* make all photos black and white */
+    width: 100%; /* Set width to 100% */
+    margin: auto;
+  }
+  .carousel-caption h3 {
+    color: #fff !important;
+  }
+  @media (max-width: 600px) {
+    .carousel-caption {
+      display: none; /* Hide the carousel text when the screen is less than 600 pixels wide */
+    }
+  }
+  .bg-1 {
+    background: #2d2d30;
+    color: #bdbdbd;
+  }
+  .bg-1 h3 {color: #fff;}
+  .bg-1 p {font-style: italic;}
+  /*.thumbnail {
+    padding: 0 0 15px 0;
+    border: none;
+    border-radius: 0;
+  }
+  .thumbnail p {
+    margin-top: 15px;
+    color: #555;
+  }*/
+  .thumbnail {
+    transition:box-shadow 0.5s;
+  }
+  .thumbnail:hover {
+    box-shadow:5px 5px 30px rgba(0,0,128,0.5);
+  }
+  .btn {
+    padding: 10px 20px;
+    background-color: #333;
+    color: #f1f1f1;
+    border-radius: 0;
+    transition: .2s;
+  }
+  .btn:hover, .btn:focus {
+    border: 1px solid #333;
+    background-color: #fff;
+    color: #000;
+  }
+  .nav-tabs li a {
+    color: #777;
+  }
+  .navbar {
+    font-family: Montserrat, sans-serif;
+    margin-bottom: 0;
+    background-color: #2d2d30;
+    border: 0;
+    font-size: 11px !important;
+    letter-spacing: 4px;
+    opacity: 0.9;
+  }
+  .navbar li a, .navbar .navbar-brand {
+    color: #d5d5d5 !important;
+  }
+  .navbar-nav li a:hover {
+    color: #fff !important;
+  }
+  .navbar-nav li.active a {
+    color: #fff !important;
+    background-color: #29292c !important;
+  }
+  .navbar-default .navbar-toggle {
+    border-color: transparent;
+  }
+  footer {
+    background-color: #2d2d30;
+    color: #f5f5f5;
+    padding: 32px;
+  }
+  footer a {
+    color: #f5f5f5;
+  }
+  footer a:hover {
+    color: #777;
+    text-decoration: none;
+  }
+  .form-control {
+    border-radius: 0;
+  }
+  textarea {
+    resize: none;
+  }
+  </style>
+</head>
+<body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="50">
+
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#myPage"><img class="img-responsive" width="30"  src="{%static "images/fastrack_logo.png" %}"  ></a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#myPage">HOME</a></li>
+        <li><a href="#branch">BRANCHES</a></li>
+        <li><a href="#buy">BUY</a></li>
+        <li><a href="#contact">CONTACT</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+      <li data-target="#myCarousel" data-slide-to="1"></li>
+      <li data-target="#myCarousel" data-slide-to="2"></li>
+      <li data-target="#myCarousel" data-slide-to="3"></li>
+    </ol>
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner" role="listbox">
+      <div class="item active">
+        <img src="{%static "images/fastrack1.jpg" %}"  width="1200" height="600">
+        <div class="carousel-caption">
+          <h3>Fastrack 1.0</h3>
+        </div>
+      </div>
+
+      <div class="item">
+        <img src="{%static "images/fastrack2.jpg" %}" width="1200" height="600">
+        <div class="carousel-caption">
+          <h3>Fastrack 2.0</h3>
+        </div>
+      </div>
+
+      <div class="item">
+        <img src="{%static "images/fastrack3.jpg" %}" width="1200" height="600">
+        <div class="carousel-caption">
+          <h3>Fastrack 3.0</h3>
+        </div>
+      </div>
+
+      <div class="item">
+        <img src="{%static "images/fastrack4.jpg" %}" width="1200" height="600">
+        <div class="carousel-caption">
+          <h3>Fastrack 4.0</h3>
+        </div>
+      </div>
+
+    </div>
+
+
+
+    <!-- Left and right controls -->
+    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+      <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+</div>
+
+<!-- Container (The Band Section) -->
+<div class="container text-center">
+  <h3>FASTRACK</h3>
+  <p><em>We love our customers!</em></p>
+  <p>Fastrack is a fashion accessory retail brand in India.
+  The company was launched in 1998 as a sub-brand of Titan Watches. In 2005, Fastrack was spun off
+   as an independent brand targeting the urban youth and growing fashion industry in India.
+  </p>
+</div>
+<div id="branch" class="jumbotron">
+<div  class="container text-center">
+  <div class="row">
+    <h3>OUR BRANCHES</h3>
+    <div class="col-sm-4">
+      <p ><strong>Hyderabad</strong></p>
+      <div class="thumbnail">
+        <img class="img-responsive" style="width:100%;height:160px;" src="{%static "images/HYDERABAD.jpg" %}" ><br>
+        <a class="btn" href="#contact">Contact</a>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <p ><strong>Bangalore</strong></p>
+      <div class="thumbnail">
+        <img class="img-responsive" style="width:100%;height:160px;" src="{%static "images/bangalore.jpg" %}"  ><br>
+        <a class="btn" href="#contact">Contact</a>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <p ><strong>Chennai</strong></p>
+      <div class="thumbnail">
+        <img class="img-responsive" style="width:100%;height:160px;" src="{%static "images/chennai.jpg" %}"  ><br>
+        <a class="btn" href="#contact">Contact</a>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div id="buy" class="bg-1">
+  <div class="container">
+    <h3 class="text-center">QUICK BUY IN ONLINE</h3>
+    <div class="row text-center">
+      <div class="col-sm-4">
+        <div class="thumbnail">
+          <img style="width:100%;height:320px;" class="img-responsive" src="{%static "images/fastrack5.jpg" %}">
+          <button class="btn" >Buy</button>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="thumbnail">
+          <img style="width:100%;height:320px;" class="img-responsive" src="{%static "images/fastrack6.jpg" %}">
+          <button class="btn" >Buy</button>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="thumbnail">
+          <img style="width:100%;height:320px;" class="img-responsive" src="{%static "images/fastrack7.jpeg" %}">
+          <button class="btn" >Buy</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="row text-center">
+      <div class="col-sm-4">
+        <div class="thumbnail">
+          <img style="width:100%;height:320px;" class="img-responsive" src="{%static "images/fastrack8.jpeg" %}">
+          <button class="btn" >Buy</button>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="thumbnail">
+          <img style="width:100%;height:320px;" class="img-responsive" src="{%static "images/fastrack9.jpg" %}">
+          <button class="btn" >Buy</button>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="thumbnail">
+          <img style="width:100%;height:320px;" class="img-responsive" src="{%static "images/fastrack10.jpeg" %}">
+          <button class="btn" >Buy</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Container (Contact Section) -->
+<div id="contact" class="container">
+  <h3 class="text-center">Contact</h3>
+  <p class="text-center"><em>We love our fans!</em></p>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="row">
+        <div class="col-sm-6 form-group">
+          <input class="form-control" id="name" name="name" placeholder="Name" type="text" required>
+        </div>
+        <div class="col-sm-6 form-group">
+          <input class="form-control" id="email" name="email" placeholder="Email" type="email" required>
+        </div>
+      </div>
+      <textarea class="form-control" id="comments" name="comments" placeholder="Comment" rows="5"></textarea>
+      <br>
+      <div class="row">
+        <div class="col-sm-12 form-group">
+          <button class="btn btn-block" type="submit">Send</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="text-center">
+  <a class="up-arrow" href="#myPage" data-toggle="tooltip" title="TO TOP">
+    <span class="glyphicon glyphicon-chevron-up"></span>
+  </a><br><br>
+  <p>Bootstrap Theme Made By <strong>Manikanta punnam's</strong></p>
+</footer>
+
+<script>
+$(document).ready(function(){
+  // Initialize Tooltip
+  $('[data-toggle="tooltip"]').tooltip();
+
+  // Add smooth scrolling to all links in navbar + footer link
+  $("a").on('click', function(event) {
+
+    // Make sure this.hash has a value before overriding default behavior
+    if (this.hash !== "") {
+
+      // Prevent default anchor click behavior
+      event.preventDefault();
+
+      // Store hash
+      var hash = this.hash;
+
+      // Using jQuery's animate() method to add smooth page scroll
+      // The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
+      $('html, body').animate({
+        scrollTop: $(hash).offset().top
+      }, 900, function(){
+
+        // Add hash (#) to URL when done scrolling (default click behavior)
+        window.location.hash = hash;
+      });
+    } // End if
+  });
+})
+</script>
+
+</body>
+</html>

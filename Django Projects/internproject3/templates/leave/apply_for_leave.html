@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-fixed">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">ARROVAL PAGE</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/leave/home/{{un}}"><span class="glyphicon glyphicon-home">Home</span></a></li>
+            <li><a href="/login/logout"><span class="glyphicon glyphicon-log-out"></span> LogOut</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="container">
+        <div class="jumbotron">
+          <form method="post">
+            {%csrf_token%}
+            <div class="row">
+              <div class="col-xs-2">
+              </div>
+              <div class="form-group col-xs-8">
+                <label for="days">How many days, do you want to apply for leave?</label>
+                <input required type="number" name='days' class="form-control" id="days">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-2">
+              </div>
+              <div class="form-group col-xs-8">
+                <label for="dsrp">Description:</label>
+                <textarea required rows="10" style="resize:none;" class="form-control" name="dsrp" placeholder="Enter your reason here..." id="dsrp"></textarea>
+              </div>
+            </div>
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary">Apply</button>
+            </div>
+          </form>
+          {% if flag < 0 %}
+          <div class="text-center">
+            <div class="alert alert-danger alert-dismissible">
+              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Message Could not be sent, Please Check your Internet Connection and try again later !</strong>
+            </div>
+          </div>
+          {% elif flag > 0 %}
+          <div class="text-center">
+            <div class="alert alert-success alert-dismissible">
+              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Message has been sent successfully</strong>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

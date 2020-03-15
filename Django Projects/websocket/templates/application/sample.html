@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <script>
+      var url='ws://echo.websocket.org/';
+      var socket=new WebSocket(url);
+      socket.onopen=function(){
+        socket.send('hello')
+      }
+      socket.onmessage=function(event){
+        document.getElementById('sample').innerHTML=event.data
+      }
+    </script>
+    <h1 id='sample'></h1>
+  </body>
+</html>

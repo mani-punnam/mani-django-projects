@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+  <body>
+    <script>
+      function getCookie(name) {
+          var cookieValue = null;
+          if (document.cookie && document.cookie != '') {
+              var cookies = document.cookie.split(';');
+              for (var i = 0; i < cookies.length; i++) {
+                  var cookie = jQuery.trim(cookies[i]);
+                  // Does this cookie string begin with the name we want?
+                  if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                      cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                      break;
+                  }
+              }
+          }
+          return cookieValue;
+      }
+
+      function csrfSafeMethod(method) {
+          // these HTTP methods do not require CSRF protection
+          return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+      }
+      $.ajaxSetup({
+          beforeSend: function(xhr, settings) {
+              if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                  xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+              }
+          }
+      });
+      function yes() {
+        $('.yes').html('sending...')
+        $.ajax({
+          url:'/leave/approval_test/',
+          dataType:'json',
+          type:'POST',
+          data:{
+            'action':'yes',
+            'un':'{{un}}',
+            'days':'{{days}}',
+            'dt':'{{dt}}',
+          },
+          success:function(result){
+            $('.original').css('display','none')
+            if(result.is_success=='success'){
+              $('.success').css('display','block')
+            }
+            else if (result.is_success=='no') {
+              $('.failure').css('display','block')
+            }
+            else if(result.is_success=='approved'){
+              $('.approved').css('display','block')
+            }
+            else {
+              $('.cancelled').css('display','block')
+            }
+          }
+        })
+      }
+      function no(){
+        $('.no').html('sending...')
+        $.ajax({
+          url:'/leave/approval_test/',
+          dataType:'json',
+          type:'POST',
+          data:{
+            'action':'no',
+            'un':'{{un}}',
+            'days':'{{days}}',
+            'dt':'{{dt}}',
+          },
+          success:function(result){
+            $('.original').css('display','none')
+            if(result.is_success=='success'){
+              $('.success').css('display','block')
+            }
+            else if (result.is_success=='no') {
+              $('.failure').css('display','block')
+            }
+            else if(result.is_success=='approved'){
+              $('.approved').css('display','block')
+            }
+            else {
+              $('.cancelled').css('display','block')
+            }
+          }
+        })
+      }
+    </script>
+    <div class="container">
+      <div class="container">
+        <div class="jumbotron">
+          {%if 'exist' == exists %}
+          <div class="original">
+            <div class="text-center">
+              <h3>Do you want to approve for it?</h3>
+              <button class="yes btn btn-success" onclick="yes()">Yes</button>
+              <button class="no btn btn-danger" onclick="no()">No</button>
+            </div>
+          </div>
+          <div class="approved" style="display:none;">
+            <div class="text-center">
+              <div class="alert alert-warning alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                  <strong>You have already given the feedback!.</strong>
+              </div>
+            </div>
+          </div>
+          <div class="cancelled" style="display:none;">
+            <div class="text-center">
+              <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                  <strong>This Request letter has been cancelled!.</strong>
+              </div>
+            </div>
+          </div>
+          <div class="success" style="display:none;">
+            <div class="text-center">
+              <div class="alert alert-success alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                  <strong>Thank you, your feedback has been sent.</strong>
+              </div>
+            </div>
+          </div>
+          <div class="failure" style="display:none;">
+            <div class="text-center">
+              <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                  <strong>Your feedback has not been sent and try again later !</strong>
+              </div>
+            </div>
+          </div>
+          {% elif 'approved' == exists %}
+          <div class="text-center">
+            <div class="alert alert-warning alert-dismissible">
+              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>You have already given the feedback !</strong>
+            </div>
+          </div>
+          {% else %}
+          <div class="text-center">
+            <div class="alert alert-danger alert-dismissible">
+              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>This Request letter has been cancelled !</strong>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+  </body>
+</html>

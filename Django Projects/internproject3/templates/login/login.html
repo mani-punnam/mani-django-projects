@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+  <body><br>
+    <div class="container">
+    <div class="container">
+      <div class="jumbotron">
+        <form class="form-horizontal" method="post">
+          {%csrf_token%}
+          <div class="form-group">
+            <label class="control-label col-xs-3" for="un">UserName:</label>
+            <div class="col-xs-7">
+              <input type="text" class="form-control" name="username" id="un" placeholder="Enter your username">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-xs-3" for="pwd">Password:</label>
+            <div class="col-xs-7">
+              <input type="password" class="form-control" name="password" id="pwd" placeholder="Enter your password">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-xs-offset-5 col-xs-2">
+              <button type="submit" class="btn btn-success">Submit</button>
+            </div>
+            </div>
+            </form>
+              <span style="float:right"><a href="/login/change_password"><h4>Forgot Password?</h4></a></span>
+            {% if error%}
+            <div style="clear:right" class="text-center">
+              <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                  <strong>Invalid Password or UserName !</strong>
+              </div>
+            </div>
+            {% endif %}
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

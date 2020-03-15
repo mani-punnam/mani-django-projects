@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <h1>Books Information</h1>
+    {%for book in books%}
+    <ul>
+      <li><a href="/{{book.id}}" >{{book.title}}</a></li>
+    </ul>
+    {%endfor%}
+  </body>
+</html>

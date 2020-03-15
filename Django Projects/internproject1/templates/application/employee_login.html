@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <span style="color:red">{{error}}</span><br>
+    <form  method="post">
+      Enter Employee Id:<input type="number" name="eid" ><br>
+      Enter Password:<input type="password" name="pwd" ><br>
+      {%csrf_token%}
+      <input type="submit" value="LogIn">
+    </form>
+  </body>
+</html>

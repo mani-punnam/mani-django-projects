@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+{%load static%}
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script type="text/javascript" src="{%static "javascript/jquery.js" %}"></script>
+    <script>
+     $(document).ready(function(){
+       $('form').submit(function(event){
+         console.log('hello')
+         event.preventDefault();
+       })
+     })
+     </script>
+  </head>
+  <body>
+   <p id='demo'></p>
+    <form  method="post">
+      {%csrf_token%}
+      {{form.as_p}}
+      <input type="submit" name="" value="Submit">
+      <script type="text/javascript" src="{%static "javascript/sample.js" %}"></script>
+    </form>
+    <button type="button" onclick="get()" name="button">Sign Up</button>
+  </body>
+</html>

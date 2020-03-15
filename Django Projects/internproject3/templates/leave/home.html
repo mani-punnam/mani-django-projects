@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <title>Home Page</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.dataTables.min.css">
+  <script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.flash.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js" charset="utf-8"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js" charset="utf-8"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js" charset="utf-8"></script>
+  <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js" charset="utf-8"></script>
+  <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js" charset="utf-8"></script>
+  <style>
+    th{
+      text-align:center;
+    }
+  </style>
+</head>
+  <body>
+    <script>
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie != '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+            }
+        }
+    });
+      function leave(){
+        $('#home').css('display','none')
+        $('#modify').css('display','none')
+        $('#pm,#tl,#tm,#applied_leaves').css('display','none')
+        $('#leave').css('display','block')
+      }
+      function attendance(){
+        alert('attendance')
+      }
+      function modify(){
+        $('#home').css('display','none')
+        $('#leave').css('display','none')
+        $('#hr,#pm,#tl,#tm,#applied_leaves').css('display','none')
+        $('#modify').css('display','block')
+      }
+      $(document).ready(function(){
+
+        $(window).focus(function(){
+          check_session();
+        })
+        /*$(window).click(function(){
+          alert('hello')
+        })*/
+        $('#hr_id').DataTable( {
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv','excel','pdf','print'
+            ]
+        } );
+
+        $('#pm_id').DataTable( {
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv','excel','pdf','print'
+            ]
+        } );
+
+        $('#tl_id').DataTable( {
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv','excel','pdf','print'
+            ]
+        } );
+
+        $('#tm_id').DataTable( {
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv','excel','pdf','print'
+            ]
+        } );
+
+        $('#applied_leaves_id').DataTable( {
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv','excel','pdf','print'
+            ]
+        } );
+      });
+
+        function update(){
+        $('.update').html('wait...')
+        var message = ''
+        var fn = $('input[name="fn"]').val()
+        var ln = $('input[name="ln"]').val()
+        var email = $('input[name="email"]').val()
+        var mbno = $('input[name="mbno"]').val()
+        var address = $('textarea[name="address"]').val()
+        if(fn!='{{qs.FirstName}}'){
+          message += 'FirstName,'
+        }
+        if(ln!='{{qs.LastName}}'){
+          message += 'LastName,'
+        }
+        if (email!='{{qs.Email}}') {
+          message += 'Email,'
+        }
+        if (mbno!='{{qs.MobileNo}}') {
+          message += 'MobileNo,'
+        }
+        if (address!='{{qs.Address}}') {
+          message += 'Address'
+        }
+        var url='/leave/update/'
+        var data={
+          'un':'{{un}}',
+          'message':message,
+          'fn':fn,
+          'ln':ln,
+          'email':email,
+          'mbno':mbno,
+          'address':address,
+        }
+        ajax_call(url,data);
+      }
+      function check_session(){
+        var url='/leave/check_session/'
+        var data={}
+        ajax_call(url,data);
+      }
+      function ajax_call(url,data){
+        $.ajax({
+          url:url,
+          dataType:'json',
+          type:'POST',
+          data:data,
+          success:function(result){
+            if(result.function_name=='update') {
+                  $('.modify_form').css('display','none')
+                  if(result.is_success=='success'){
+                    $('.success').css('display','block')
+                  }
+                  else if (result.is_success=='pending') {
+                    $('.pending').css('display','block')
+                  }
+                  else {
+                    $('.failure').css('display','block')
+                  }
+            }
+            else {
+              if(result.is_success=='failure'){
+                window.location='/login/login'
+              }
+            }
+          }
+        })
+      }
+      function hr(){
+        $('#home,#modify,#pm,#tl,#tm,#applied_leaves').css('display','none')
+        $('#hr').css('display','block')
+      }
+      function pm(){
+        $('#home,#leave,#modify,#hr,#tl,#tm,#applied_leaves').css('display','none')
+        $('#pm').css('display','block')
+      }
+      function tl(){
+        $('#home,#leave,#modify,#pm,#hr,#tm,#applied_leaves').css('display','none')
+        $('#tl').css('display','block')
+      }
+      function tm(){
+        $('#home,#leave,#modify,#pm,#tl,#hr,#applied_leaves').css('display','none')
+        $('#tm').css('display','block')
+      }
+      function LeavesList(){
+        $('#home,#leave,#modify,#pm,#tl,#hr,#tm').css('display','none')
+        $('#applied_leaves').css('display','block')
+      }
+    </script>
+    <nav class="navbar navbar-default navbar-fixed">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand"  href="#">Home</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        {%if 'CEO' != role %}
+        <li onclick="leave()"><a href="#">LEAVE</a></li>
+        <li onclick="attendance()"><a href="#">ATTENDANCE</a></li>
+        {%else%}
+        <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">EmployeeList
+        <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li onclick="hr()"><a href="#">HR</a></li>
+          <li onclick="pm()"><a href="#">ProjectManager</a></li>
+          <li onclick="tl()"><a href="#">TeamLead</a></li>
+          <li onclick="tm()"><a href="#">TeamMember</a></li>
+        </ul>
+        </li>
+        <li onclick="LeavesList()"><a href="#">LeavesList</a></li>
+        {%endif%}
+        {%if 'HR' == role %}
+        <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">EmployeeList
+        <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li onclick="pm()"><a href="#">ProjectManager</a></li>
+          <li onclick="tl()"><a href="#">TeamLead</a></li>
+          <li onclick="tm()"><a href="#">TeamMember</a></li>
+        </ul>
+        </li>
+        <li onclick="LeavesList()"><a href="#">LeavesList</a></li>
+        {%endif%}
+        <li onclick="modify()"><a href="#">MODIFY</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a  href="/login/logout"><span class="glyphicon glyphicon-log-out"></span> LogOut</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="container">
+ <div class="jumbotron">
+ <h2 id='home' class='text-center'>WELCOME TO HOME PAGE</h2>
+ <div id='leave' style='display:none;' class="panel panel-primary">
+      <div class="panel-heading">LEAVE MANAGEMENT SYSTEM</div>
+      <div class="panel-body">
+        <div class="table-responsive">
+          <table class="table table-bordered text-center">
+            <thead >
+              <tr>
+                <th class="text-center">Applied</th>
+                <th class="text-center">Remainder</th>
+                <th class="text-center">Pending</th>
+                <th class="text-center">Paid Leaves</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><a href="/leave/applied"><span class="badge">{{applied}}</span></a></td>
+                <td><span class="badge">{{remainder}}</span></td>
+                <td><a href="/leave/pending"><span class="badge">{{pending}}</span></a></td>
+                <td><span class="badge">{{pl}}</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="panel-footer" style='text-align:right;'><a href="/leave/apply_for_leave" class="btn btn-info">Apply for leave</a></div>
+  </div>
+  <div id='modify' style='display:none;'>
+    <div class="modify_form">
+    <div class="row">
+    <div class="form-group">
+      <label class="control-label col-xs-3" for="fn">FirstName:</label>
+      <div class="col-xs-7">
+        <input type="text" class="form-control" name="fn" id="fn" value="{{qs.FirstName}}" >
+      </div>
+    </div>
+    </div><br>
+    <div class="row">
+    <div class="form-group">
+      <label class="control-label col-xs-3" for="ln">LastName:</label>
+      <div class="col-xs-7">
+        <input type="text" class="form-control" name="ln" id="ln" value="{{qs.LastName}}">
+      </div>
+    </div>
+    </div><br>
+    <div class="row">
+    <div class="form-group">
+      <label class="control-label col-xs-3" for="email">Email:</label>
+      <div class="col-xs-7">
+        <input type="email" class="form-control" name="email" id="email" value="{{qs.Email}}">
+      </div>
+    </div>
+    </div><br>
+    <div class="row">
+    <div class="form-group">
+      <label class="control-label col-xs-3" for="mbno">MobileNo:</label>
+      <div class="col-xs-7">
+        <input type="number" class="form-control" name="mbno" id="mbno" value="{{qs.MobileNo}}">
+      </div>
+    </div>
+    </div><br>
+    <div class="row">
+    <div class="form-group">
+      <label class="control-label col-xs-3" for="address">Address:</label>
+      <div class="col-xs-7">
+        <textarea  class="form-control" style="resize:none;" rows="10" name="address" id="address" >{{qs.Address}}</textarea>
+      </div>
+    </div>
+    </div><br>
+    <div class="row">
+    <div class="form-group">
+      <div class="col-xs-offset-5 col-xs-2">
+        <button onclick="update()" class="update btn btn-success">Update</button>
+      </div>
+      </div>
+    </div><br>
+  </div>
+ <div class="success" style="display:none;">
+   <div class="text-center">
+     <div class="alert alert-success alert-dismissible">
+       <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+         <strong>Your data has been successfully updated.</strong>
+     </div>
+   </div>
+ </div>
+ <div class="pending" style="display:none;">
+   <div class="text-center">
+     <div class="alert alert-warning alert-dismissible">
+       <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+         <strong>Your data will be updated whenever HR will approve it?.</strong>
+     </div>
+   </div>
+ </div>
+ <div class="failure" style="display:none;">
+   <div class="text-center">
+     <div class="alert alert-danger alert-dismissible">
+       <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+         <strong>Check Your Internet Connection and try again!.</strong>
+     </div>
+   </div>
+ </div>
+ </div>
+ {% if 'CEO' == role or 'HR' == role %}
+ {% if 'CEO' == role %}
+ <div id='hr' class="container" style='display:none;'>
+   <table id="hr_id" class="table table-bordered table-striped text-center" >
+     <thead>
+       <tr>
+         <th>Firstname</th>
+         <th>Lastname</th>
+         <th>Email</th>
+         <th>MobileNo</th>
+         <th>Address</th>
+       </tr>
+     </thead>
+     <tbody >
+       {% for emp in hr %}
+       <tr>
+         <td>{{emp.FirstName}}</td>
+         <td>{{emp.LastName}}</td>
+         <td>{{emp.Email}}</td>
+         <td>{{emp.MobileNo}}</td>
+         <td>{{emp.Address}}</td>
+       </tr>
+       {%endfor%}
+     </tbody>
+   </table>
+ </div>
+ {% endif %}
+ <div class="container" id="pm" style='display:none;'>
+   <table id="pm_id" class="table table-bordered table-striped text-center" >
+     <thead>
+       <tr>
+         <th>Firstname</th>
+         <th>Lastname</th>
+         <th>Email</th>
+         <th>MobileNo</th>
+         <th>Address</th>
+       </tr>
+     </thead>
+     <tbody >
+       {% for emp in pm %}
+       <tr>
+         <td>{{emp.FirstName}}</td>
+         <td>{{emp.LastName}}</td>
+         <td>{{emp.Email}}</td>
+         <td>{{emp.MobileNo}}</td>
+         <td>{{emp.Address}}</td>
+       </tr>
+       {%endfor%}
+     </tbody>
+   </table>
+ </div>
+ <div id="tl" class="container" style='display:none;'>
+   <table id="tl_id" class="table table-bordered table-striped text-center" >
+     <thead>
+       <tr>
+         <th>Firstname</th>
+         <th>Lastname</th>
+         <th>Email</th>
+         <th>MobileNo</th>
+         <th>Address</th>
+       </tr>
+     </thead>
+     <tbody >
+       {% for emp in tl %}
+       <tr>
+         <td>{{emp.FirstName}}</td>
+         <td>{{emp.LastName}}</td>
+         <td>{{emp.Email}}</td>
+         <td>{{emp.MobileNo}}</td>
+         <td>{{emp.Address}}</td>
+       </tr>
+       {%endfor%}
+     </tbody>
+   </table>
+ </div>
+ <div id="tm" class="container" style='display:none;'>
+   <table id="tm_id" class="table table-bordered table-striped text-center" >
+     <thead>
+       <tr>
+         <th>Firstname</th>
+         <th>Lastname</th>
+         <th>Email</th>
+         <th>MobileNo</th>
+         <th>Address</th>
+       </tr>
+     </thead>
+     <tbody >
+       {% for emp in tm %}
+       <tr>
+         <td>{{emp.FirstName}}</td>
+         <td>{{emp.LastName}}</td>
+         <td>{{emp.Email}}</td>
+         <td>{{emp.MobileNo}}</td>
+         <td>{{emp.Address}}</td>
+       </tr>
+       {%endfor%}
+     </tbody>
+   </table>
+   </div>
+   {% endif %}
+   {% if 'CEO' == role or 'HR' == role %}
+   <div id="applied_leaves" class="container" style='display:none;'>
+     <table id="applied_leaves_id" class="table table-bordered table-striped text-center" >
+       <thead>
+         <tr>
+           <th>UserName</th>
+           <th>AppliedTime</th>
+           <th>ApprovedTime</th>
+           <th>Days</th>
+           <th>Description</th>
+         </tr>
+       </thead>
+       <tbody >
+         {% for emp in applied_leaves %}
+         <tr>
+           <td>{{emp.username}}</td>
+           <td>{{emp.applied_time}}</td>
+           <td>{{emp.approved_time}}</td>
+           <td>{{emp.days}}</td>
+           <td>{{emp.description}}</td>
+         </tr>
+         {%endfor%}
+       </tbody>
+     </table>
+    </div>
+    {% endif %}
+ </div>
+ </div>
+  </body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+      th{
+        text-align:center;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      function getCookie(name) {
+          var cookieValue = null;
+          if (document.cookie && document.cookie != '') {
+              var cookies = document.cookie.split(';');
+              for (var i = 0; i < cookies.length; i++) {
+                  var cookie = jQuery.trim(cookies[i]);
+                  // Does this cookie string begin with the name we want?
+                  if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                      cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                      break;
+                  }
+              }
+          }
+          return cookieValue;
+      }
+
+      function csrfSafeMethod(method) {
+          // these HTTP methods do not require CSRF protection
+          return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+      }
+      $.ajaxSetup({
+          beforeSend: function(xhr, settings) {
+              if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                  xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+              }
+          }
+      });
+      $(document).ready(function(){
+        $('table').attr('style','border:2px solid black;')
+        $('th').attr('style','border:2px solid black;')
+        $('td').attr('style','border:2px solid black;')
+        $('button').click(function(){
+          $(this).html('canceling...')
+          var id=$(this).attr('name')
+          $.ajax({
+            url:'/leave/cancel/',
+            dataType:'json',
+            type:'POST',
+            data:{
+              'id':id
+            },
+            success:function(result){
+              if(result.is_delete == 'success') {
+                $('tr#'+id).css('display','none')
+              }
+              else {
+                alert('This Request has already been approved')
+                $('tr#'+id).css('display','none')
+              }
+            }
+          })
+        })
+      })
+    </script>
+    <div class="container">
+      <div class="jumbotron">
+        <div class="table-responsive text-center">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Date and Time</th>
+                <th>Days</th>
+                <th>Description</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for p in pending %}
+              <tr id="{{p.id}}">
+                <td>{{p.username}}</td>
+                <td>{{p.date_and_time}}</td>
+                <td>{{p.days}}</td>
+                <td>{{p.description}}</td>
+                <td><button name='{{p.id}}' class="btn btn-danger">Cancel</button></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

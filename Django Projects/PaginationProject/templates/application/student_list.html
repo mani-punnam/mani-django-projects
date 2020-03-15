@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    {%for student in student_list%}
+    <ul>
+      <li>{{student.sregno}}</li>
+      <li>{{student.sname}}</li>
+      <li>{{student.gender}}</li>
+      <li>{{student.email}}</li>
+      <li>{{student.smarks}}</li>
+    </ul>
+    {%endfor%}
+    {%include 'application/pagination.html' with page=page_obj %}
+  </body>
+</html>

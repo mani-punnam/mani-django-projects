@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+{%extends 'secondapp/base.html' %}
+{% block  child_block %}
+    {%load cust_file%}
+    {%if student%}
+    <table border="2px">
+      <thead>
+        <th>Student Number</th>
+        <th>Student Name</th>
+        <th>Student Marks</th>
+        <th>Action</th>
+      </thead>
+      {%for std in student%}
+      <tr>
+        <td>{{std.sregno}}</td>
+        <td>{{std.sname|truncate:"0 2"}}</td>
+        <td>{{std.smarks}}</td>
+        <td><a href="/update/{{std.id}}">update</a> <a href="/delete/{{std.id}}">delete</a></td>
+      </tr>
+      {%endfor%}
+    </table>
+    {%endif%}
+{% endblock %}
